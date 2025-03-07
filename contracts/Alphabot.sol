@@ -14,7 +14,7 @@ contract Alphabot is OFT {
         uint256 _initialSupply
     ) OFT(_name, _symbol, _lzEndpoint, _delegate) Ownable(_delegate) {
         if (mint) {
-            _mint(msg.sender, _initialS
+            _mint(msg.sender, _initialSupply);
         }
     }
 }
