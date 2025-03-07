@@ -5,13 +5,13 @@
 // - Fill in the environment variables
 import 'dotenv/config'
 
-import '@openzeppelin/hardhat-upgrades'
 import 'hardhat-deploy'
-import '@nomiclabs/hardhat-waffle'
-import 'hardhat-deploy-ethers'
 import 'hardhat-contract-sizer'
 import '@nomiclabs/hardhat-ethers'
 import '@layerzerolabs/toolbox-hardhat'
+import '@matterlabs/hardhat-zksync-solc'
+import '@matterlabs/hardhat-zksync-deploy'
+import '@matterlabs/hardhat-zksync-verify'
 
 import { HardhatUserConfig, HttpNetworkAccountsUserConfig } from 'hardhat/types'
 
@@ -41,11 +41,14 @@ if (accounts == null) {
 const config: HardhatUserConfig = {
     paths: {
         cache: 'cache/hardhat',
+        artifacts: 'artifacts',
+        sources: './contracts',
     },
     solidity: {
         compilers: [
             {
                 version: '0.8.22',
+                eraVersion: '1.0.0',
                 settings: {
                     optimizer: {
                         enabled: true,
@@ -55,22 +58,47 @@ const config: HardhatUserConfig = {
             },
         ],
     },
+	zksolc: {
+        version: '1.4.1', // Version of the zksolc compiler to use
+        compilerSource: 'binary', // or 'docker' if you prefer
+        settings: {
+            optimizer: {
+                enabled: true,
+                mode: 'z',
+            },
+            libraries: {},
+        },
+    },
     networks: {
         'sepolia-testnet': {
             eid: EndpointId.SEPOLIA_V2_TESTNET,
             url: process.env.RPC_URL_SEPOLIA || 'https://rpc.sepolia.org/',
+            chainId: 11155111,
             accounts,
         },
-        'avalanche-testnet': {
-            eid: EndpointId.AVALANCHE_V2_TESTNET,
-            url: process.env.RPC_URL_FUJI || 'https://rpc.ankr.com/avalanche_fuji',
+        'abstract-testnet': {
+            eid: EndpointId.ABSTRACT_V2_TESTNET,
+            url: process.env.RPC_URL_ABSTRACT_TESTNET || 'https://api.testnet.abs.xyz',
+            chainId: 11124,
             accounts,
+            zksync: true,
+            ethNetwork: "sepolia",
         },
-        'amoy-testnet': {
-            eid: EndpointId.AMOY_V2_TESTNET,
-            url: process.env.RPC_URL_AMOY || 'https://polygon-amoy-bor-rpc.publicnode.com',
+        'mainnet': {
+            eid: EndpointId.ETHEREUM_V2_MAINNET,
+            url: process.env.RPC_URL_MAINNET || 'https://mainnet.infura.io/v3/your-infura-id',
             accounts,
+            chainId: 1,
         },
+        'abstract': {
+            eid: EndpointId.ABSTRACT_V2_MAINNET,
+            url: process.env.RPC_URL_ABSTRACT || 'https://api.mainnet.abs.xyz',
+            accounts,
+            chainId: 2741,
+            zksync: true,
+            ethNetwork: "mainnet",
+        },
+
         hardhat: {
             // Need this for testing because TestHelperOz5.sol is exceeding the compiled contract size limit
             allowUnlimitedContractSize: true,
@@ -81,12 +109,8 @@ const config: HardhatUserConfig = {
             default: 0, // wallet address of index[0], of the mnemonic in .env
         },
     },
-    layerZero: {
-        // You can tell hardhat toolbox not to include any deployments (hover over the property name to see full docs)
-        deploymentSourcePackages: [],
-        // You can tell hardhat not to include any artifacts either
-        // artifactSourcePackages: [],
-    },
+    
+
 }
 
 export default config

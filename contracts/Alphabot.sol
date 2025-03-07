@@ -9,10 +9,12 @@ contract Alphabot is OFT {
         string memory _name,
         string memory _symbol,
         address _lzEndpoint,
-        address _delegate
-    ) OFT(_name, _symbol, _lzEndpoint, _delegate) Ownable(_delegate) {}
-
-    function mint(address _to, uint256 _amount) public onlyOwner {
-        _mint(_to, _amount);
+        address _delegate,
+        bool mint,
+        uint256 _initialSupply
+    ) OFT(_name, _symbol, _lzEndpoint, _delegate) Ownable(_delegate) {
+        if (mint) {
+            _mint(msg.sender, _initialS
+        }
     }
 }
