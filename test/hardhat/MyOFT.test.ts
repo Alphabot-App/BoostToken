@@ -11,6 +11,7 @@ describe('MyOFT Test', function () {
     const eidB = 2
     // Declaration of variables to be used in the test suite
     let MyOFT: ContractFactory
+    let MyOFTMainnet: ContractFactory
     let EndpointV2Mock: ContractFactory
     let ownerA: SignerWithAddress
     let ownerB: SignerWithAddress
@@ -25,7 +26,8 @@ describe('MyOFT Test', function () {
         // Contract factory for our tested contract
         //
         // We are using a derived contract that exposes a mint() function for testing purposes
-        MyOFT = await ethers.getContractFactory('Alphabot');
+        MyOFTMainnet = await ethers.getContractFactory('BoostMainnet');
+        MyOFT = await ethers.getContractFactory('Boost');
 
         // Fetching the first three signers (accounts) from Hardhat's local Ethereum network
         const signers = await ethers.getSigners()
@@ -50,7 +52,7 @@ describe('MyOFT Test', function () {
         mockEndpointV2B = await EndpointV2Mock.deploy(eidB)
 
         // Deploying two instances of MyOFT contract with different identifiers and linking them to the mock LZEndpoint
-        myOFTA = await MyOFT.deploy('aOFT', 'aOFT', mockEndpointV2A.address, ownerA.address)
+        myOFTA = await MyOFTMainnet.deploy('aOFT', 'aOFT', mockEndpointV2A.address, ownerA.address)
         myOFTB = await MyOFT.deploy('bOFT', 'bOFT', mockEndpointV2B.address, ownerB.address)
 
         // Setting destination endpoints in the LZEndpoint mock for each MyOFT instance
@@ -65,8 +67,8 @@ describe('MyOFT Test', function () {
     // A test case to verify token transfer functionality
     it('should send a token from A address to B address via each OFT', async function () {
         // Minting an initial amount of tokens to ownerA's address in the myOFTA contract
-        const initialAmount = ethers.utils.parseEther('100')
-        await myOFTA.mint(ownerA.address, initialAmount)
+        const initialAmount = ethers.utils.parseEther('1000000000')
+        // await myOFTA.mint(ownerA.address, initialAmount)
 
         // Defining the amount of tokens to send and constructing the parameters for the send operation
         const tokensToSend = ethers.utils.parseEther('1')

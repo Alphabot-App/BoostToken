@@ -2,7 +2,8 @@
 pragma solidity ^0.8.20;
 
 // token imports
-import { Alphabot } from "../../contracts/Alphabot.sol";
+import { BoostMainnet } from "../../contracts/BoostMainnet.sol";
+import { Boost } from "../../contracts/Boost.sol";
 import { OFTComposerMock } from "../mocks/OFTComposerMock.sol";
 // OApp imports
 import { IOAppOptionsType3, EnforcedOptionParam } from "@layerzerolabs/oapp-evm/contracts/oapp/libs/OAppOptionsType3.sol";
@@ -29,8 +30,8 @@ contract AlphaTestDeploy is TestHelperOz5 {
     uint32 private aEid = 1;
     uint32 private bEid = 2;
 
-    Alphabot private aOFT;
-    Alphabot private bOFT;
+    BoostMainnet private aOFT;
+    Boost private bOFT;
 
     address private userA = makeAddr("userA");
     address private userB = makeAddr("userB");
@@ -43,8 +44,8 @@ contract AlphaTestDeploy is TestHelperOz5 {
         super.setUp();
         setUpEndpoints(2, LibraryType.UltraLightNode);
 
-        aOFT = new Alphabot("aOFT", "aOFT", address(endpoints[aEid]), address(this), true, initialSupply);
-        bOFT = new Alphabot("bOFT", "bOFT", address(endpoints[bEid]), address(this), false, 0);
+        aOFT = new BoostMainnet("aOFT", "aOFT", address(endpoints[aEid]), address(this));
+        bOFT = new Boost("bOFT", "bOFT", address(endpoints[bEid]), address(this));
 
         // config and wire the ofts
         address[] memory ofts = new address[](2);
@@ -52,7 +53,7 @@ contract AlphaTestDeploy is TestHelperOz5 {
         ofts[1] = address(bOFT);
         this.wireOApps(ofts);
 
-        // mint tokens to initial owner
+        aOFT.transfer(userA, initialSupply);
     }
 
     function test_constructor() public {
