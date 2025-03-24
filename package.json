@@ -4,6 +4,9 @@
   "private": true,
   "license": "MIT",
   "scripts": {
+    "confirm-lz-wire": "hardhat lz:oapp:peers:get --oapp-config layerzero.config.ts && hardhat lz:oapp:config:get --oapp-config layerzero.config.ts && hardhat lz:oapp:config:get:executor && hardhat lz:oapp:enforced-opts:get --oapp-config layerzero.config.ts && hardhat lz:oapp:config:get --oapp-config layerzero.config.ts",
+    "lz-wire": "hardhat lz:oapp:wire --oapp-config layerzero.config.ts",
+    "deploy": "hardhat lz:deploy",
     "clean": "rm -rf artifacts artifacts-zk cache out",
     "compile": "concurrently -c auto --names forge,hardhat:evm,hardhat:zksync '$npm_execpath run compile:forge' '$npm_execpath run compile:hardhat:evm' '$npm_execpath run compile:hardhat:zksync'",
     "compile:forge": "forge build",
