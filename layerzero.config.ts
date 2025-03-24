@@ -7,12 +7,12 @@ const USE_MAINNET = process.env.USE_MAINNET === 'true'
 const DEPLOYER_ADDRESS = process.env.DEPLOYER_ADDRESS
 const abstractContract: OmniPointHardhat = {
     eid: USE_MAINNET? EndpointId.ABSTRACT_V2_MAINNET :EndpointId.ABSTRACT_V2_TESTNET,
-    contractName: 'Alphabot',
+    contractName: 'Boost',
 }
 
 const mainnetContract: OmniPointHardhat = {
     eid: USE_MAINNET? EndpointId.ETHEREUM_V2_MAINNET :EndpointId.SEPOLIA_V2_TESTNET,
-    contractName: 'Alphabot',
+    contractName: 'BoostMainnet',
 }
 
 const dvns = {
