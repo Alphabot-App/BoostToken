@@ -3,9 +3,12 @@ import { parseEther } from 'ethers/lib/utils';
 
 import { type DeployFunction } from 'hardhat-deploy/types'
 require('dotenv').config()
-const contractName = 'Alphabot';
+const contractName = 'Boost';
+const contractNameMainnet = 'BoostMainnet';
 const MINT_INITIAL_SUPPLY_CHAIN_ID = process.env.MINT_INITIAL_SUPPLY_CHAIN_ID? +process.env.MINT_INITIAL_SUPPLY_CHAIN_ID: 11155111;
-const INITIAL_SUPPLY = process.env.INITIAL_SUPPLY? parseEther(process.env.INITIAL_SUPPLY): parseEther('1000000000')
+const name = process.env.TOKEN_NAME || 'Boost';
+const symbol = process.env.TOKEN_SYMBOL || 'BOOST';
+
 // const EndpointV2 = [
 //     // Mainnet
 //     {
@@ -61,15 +64,13 @@ const deploy: DeployFunction = async (hre) => {
 
     if (hre.network.config.chainId === MINT_INITIAL_SUPPLY_CHAIN_ID) {
         console.log(`Deploying contract and minting initial supply with deployer: ${deployer}`)
-        const { address } = await deploy(contractName, {
+        const { address } = await deploy(contractNameMainnet, {
             from: deployer,
             args: [
-                'MyOFT', // name
-                'MOFT', // symbol
+                name,
+                symbol,
                 endpointV2Deployment.address, // LayerZero's EndpointV2 address
                 deployer, // owner
-                true, // mint flag
-                INITIAL_SUPPLY, // initial supply
             ],
             log: true,
             skipIfAlreadyDeployed: false,
@@ -81,12 +82,10 @@ const deploy: DeployFunction = async (hre) => {
         const { address } = await deploy(contractName, {
             from: deployer,
             args: [
-                'MyOFT', // name
-                'MOFT', // symbol 
+                name,
+                symbol, 
                 endpointV2Deployment.address, // LayerZero's EndpointV2 address
                 deployer, // owner
-                false, // mint flag
-                0, // initial supply
             ],
             log: true,
             skipIfAlreadyDeployed: false,
