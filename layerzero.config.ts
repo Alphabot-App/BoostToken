@@ -18,14 +18,14 @@ const mainnetContract: OmniPointHardhat = {
 const dvns = {
     mainnet: {
         layerZero: "0x589dedbd617e0cbcb916a9223f4d1300c294236b",
-        stargate: "0x8fafae7dd957044088b3d0f67359c327c6200d18"
+        nethermind: "0xa59ba433ac34d2927232918ef5b2eaafcf130ba5",
     },
     sepolia: {
         layerZero: "0x8eebf8b423b73bfca51a1db4b7354aa0bfca9193",
     },
     abstract: {
         layerZero: "0xf4da94b4ee9d8e209e3bf9f469221ce2731a7112",
-        stargate: "0xcec9f0a49073ac4a1c439d06cb9448512389a64e"
+        nethermind: "0xc4a1f52fda034a9a5e1b3b27d14451d15776fef6",
     },
     abstractSepolia: {
         layerZero: "0x5dfcab27c1eec1eb07ff987846013f19355a04cb",
@@ -91,7 +91,7 @@ const config: OAppOmniGraphHardhat = {
                     },
                     ulnConfig: {
                         confirmations: 12n,
-                        requiredDVNs: USE_MAINNET ? [dvns.mainnet.layerZero, dvns.mainnet.stargate] : [dvns.sepolia.layerZero],
+                        requiredDVNs: USE_MAINNET ? [dvns.mainnet.layerZero, dvns.mainnet.nethermind] : [dvns.sepolia.layerZero],
                         optionalDVNs: [],
                         optionalDVNThreshold: 0,
                     }
@@ -99,7 +99,7 @@ const config: OAppOmniGraphHardhat = {
                 receiveConfig: {
                     ulnConfig: {
                         confirmations: 12n,
-                        requiredDVNs: USE_MAINNET ? [dvns.mainnet.layerZero, dvns.mainnet.stargate] : [dvns.sepolia.layerZero],
+                        requiredDVNs: USE_MAINNET ? [dvns.mainnet.layerZero, dvns.mainnet.nethermind] : [dvns.sepolia.layerZero],
                         optionalDVNs: [],
                         optionalDVNThreshold: 0,
                     }
@@ -130,7 +130,7 @@ const config: OAppOmniGraphHardhat = {
                     },
                     ulnConfig: {
                         confirmations: 12n,
-                        requiredDVNs: USE_MAINNET ? [dvns.abstract.layerZero, dvns.abstract.stargate] : [dvns.abstractSepolia.layerZero],
+                        requiredDVNs: USE_MAINNET ? [dvns.abstract.layerZero, dvns.abstract.nethermind] : [dvns.abstractSepolia.layerZero],
                         optionalDVNs: [],
                         optionalDVNThreshold: 0,
                     }
@@ -138,7 +138,7 @@ const config: OAppOmniGraphHardhat = {
                 receiveConfig: {
                     ulnConfig: {
                         confirmations: 12n,
-                        requiredDVNs: USE_MAINNET ? [dvns.abstract.layerZero, dvns.abstract.stargate] : [dvns.abstractSepolia.layerZero],
+                        requiredDVNs: USE_MAINNET ? [dvns.abstract.layerZero, dvns.abstract.nethermind] : [dvns.abstractSepolia.layerZero],
                         optionalDVNs: [],
                         optionalDVNThreshold: 0,
                     }
