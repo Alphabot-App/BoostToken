@@ -1,5 +1,5 @@
-// const hre = require('hardhat');
-import hre from 'hardhat';
+const hre = require('hardhat');
+
 require('dotenv').config();
 import { exec as execBase } from 'child_process';
 import { promisify } from 'util';
@@ -48,9 +48,9 @@ const afterDeploy = async () => {
   );
 
   console.log('verifying mainnet contract');
-//   const result = await exec(
-//     `hardhat verify --network ${process.env.NETWORK} ${BoostMainnet.address} ${BoostMainnet.args}`,
-//   );
+  //   const result = await exec(
+  //     `hardhat verify --network ${process.env.NETWORK} ${BoostMainnet.address} ${BoostMainnet.args}`,
+  //   );
 
   return receipt;
 };
