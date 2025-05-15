@@ -53,7 +53,7 @@ if (!ETHERSCAN_API_KEY) {
 }
 
 const config: HardhatUserConfig = {
-  defaultNetwork: 'abstract-testnet',
+  defaultNetwork: 'mainnet',
   paths: {
     cache: 'cache/hardhat',
     artifacts: 'artifacts',
