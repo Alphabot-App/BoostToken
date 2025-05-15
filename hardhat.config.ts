@@ -12,7 +12,7 @@ import '@layerzerolabs/toolbox-hardhat';
 import '@matterlabs/hardhat-zksync-solc';
 import '@matterlabs/hardhat-zksync-deploy';
 import '@nomicfoundation/hardhat-verify';
-import '@matterlabs/hardhat-zksync-verify';
+// import '@matterlabs/hardhat-zksync-verify';
 
 import {
   HardhatUserConfig,
