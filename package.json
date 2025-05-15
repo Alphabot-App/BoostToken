@@ -4,6 +4,10 @@
   "private": true,
   "license": "MIT",
   "scripts": {
+    "full-deploy": "yarn deploy && yarn deploy && yarn lz-wire && yarn confirm-lz-wire && yarn after-deploy",
+    "verify": "ts-node utils/verify.ts",
+    "verify:zk": "ts-node utils/verifyl2.ts",
+    "after-deploy": "ts-node utils/afterDeploy.ts",
     "confirm-lz-wire": "hardhat lz:oapp:peers:get --oapp-config layerzero.config.ts && hardhat lz:oapp:config:get --oapp-config layerzero.config.ts && hardhat lz:oapp:config:get:executor && hardhat lz:oapp:enforced-opts:get --oapp-config layerzero.config.ts && hardhat lz:oapp:config:get --oapp-config layerzero.config.ts",
     "lz-wire": "hardhat lz:oapp:wire --oapp-config layerzero.config.ts",
     "deploy": "hardhat lz:deploy",
@@ -27,6 +31,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.23.9",
+    "@layerzerolabs/devtools-evm": "~1.0.6",
     "@layerzerolabs/devtools-evm-hardhat": "^2.0.6",
     "@layerzerolabs/eslint-config-next": "~2.3.39",
     "@layerzerolabs/lz-definitions": "^3.0.59",
@@ -87,8 +92,10 @@
     "hardhat-deploy": "^0.12.1"
   },
   "dependencies": {
+    "@nomicfoundation/hardhat-verify": "^2.0.13",
     "@safe-global/api-kit": "^3.0.1",
     "@safe-global/protocol-kit": "^6.0.3",
-    "@safe-global/types-kit": "^2.0.1"
+    "@safe-global/types-kit": "^2.0.1",
+    "fp-ts": "^2.16.10"
   }
 }

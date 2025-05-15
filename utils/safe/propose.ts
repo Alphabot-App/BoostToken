@@ -235,4 +235,3 @@ export const proposeBridgeBoostAbstract = async (to: string, wad: string) => {
     throw new Error('Failed to create transaction');
   }
 };
-
