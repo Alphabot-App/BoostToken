@@ -44,6 +44,10 @@ if (accounts == null) {
 
 const ETHERSCAN_API_KEY = process.env.ETHERSCAN_API_KEY;
 const ABSCAN_API_KEY = process.env.ABSCAN_API_KEY;
+const BSCSCAN_API_KEY = process.env.BSCSCAN_API_KEY;
+if (!BSCSCAN_API_KEY) {
+  throw new Error('BSCSCAN_API_KEY is not defined');
+}
 if (!ABSCAN_API_KEY) {
   throw new Error('ABSCAN_API_KEY is not defined');
 }
@@ -91,6 +95,12 @@ const config: HardhatUserConfig = {
       chainId: 11155111,
       accounts,
     },
+    pascal: {
+      eid: EndpointId.BSC_V2_TESTNET,
+      url: process.env.RPC_URL_PASCAL || 'https://bsc-testnet.drpc.org/',
+      accounts,
+      chainId: 97,
+    },
     'abstract-testnet': {
       eid: EndpointId.ABSTRACT_V2_TESTNET,
       url:
@@ -108,7 +118,12 @@ const config: HardhatUserConfig = {
       accounts,
       chainId: 1,
     },
-
+    bsc: {
+      eid: EndpointId.BSC_V2_MAINNET,
+      url: process.env.RPC_URL_BSC || 'https://bsc-dataseed.binance.org/',
+      accounts,
+      chainId: 56,
+    },
     abstract: {
       eid: EndpointId.ABSTRACT_V2_MAINNET,
       url: process.env.RPC_URL_ABSTRACT || 'https://api.mainnet.abs.xyz',
@@ -129,6 +144,7 @@ const config: HardhatUserConfig = {
       sepolia: ETHERSCAN_API_KEY,
       'abstract-testnet': ABSCAN_API_KEY,
       abstract: ABSCAN_API_KEY,
+      bsc: BSCSCAN_API_KEY,
     },
     customChains: [
       {
@@ -145,6 +161,14 @@ const config: HardhatUserConfig = {
         urls: {
           apiURL: 'https://api.abscan.org/api',
           browserURL: 'https://abscan.org/',
+        },
+      },
+      {
+        network: 'bsc',
+        chainId: 56,
+        urls: {
+          apiURL: 'https://api.bscscan.com/api',
+          browserURL: 'https://bscscan.com/',
         },
       },
     ],
