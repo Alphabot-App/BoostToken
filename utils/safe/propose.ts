@@ -22,7 +22,7 @@ let config: {
   bscChainId: number;
   boostInterface: ethers.utils.Interface;
   boostAddressMainnet: string;
-  boostAddressLayer2: string;
+
   rpc: string;
 } | null = null;
 
@@ -63,11 +63,6 @@ const getProtocolKit = async () => {
 
   if (!BOOST_ADDRESS_MAINNET) {
     throw new Error('BOOST_ADDRESS_MAINNET is not defined');
-  }
-
-  const BOOST_ADDRESS_LAYER2 = process.env.BOOST_ADDRESS_LAYER2;
-  if (!BOOST_ADDRESS_LAYER2) {
-    throw new Error('BOOST_ADDRESS_LAYER2 is not defined');
   }
 
   const LAYER2_CHAIN_ID = process.env.LAYER2_CHAIN_ID;
@@ -112,7 +107,6 @@ const getProtocolKit = async () => {
     bscEid: +BSC_EID,
     bscChainId: +BSC_CHAIN_ID,
     boostAddressMainnet: BOOST_ADDRESS_MAINNET,
-    boostAddressLayer2: BOOST_ADDRESS_LAYER2,
     rpc: RPC_URL_GS,
   };
   return config;
@@ -181,7 +175,6 @@ export const proposeBridgeBoostAbstract = async (to: string, wad: string) => {
     protocolKit,
     apiKit,
     boostAddressMainnet,
-    boostAddressLayer2,
     boostInterface,
     layer2Eid,
     rpc,
