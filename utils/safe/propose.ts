@@ -8,6 +8,7 @@ import boostAbi from '../../artifacts/contracts/BoostMainnet.sol/BoostMainnet.js
 import { OFT } from '@layerzerolabs/lz-evm-sdk-v2';
 import { addressToBytes32, Options } from '@layerzerolabs/lz-v2-utilities';
 import { send } from 'process';
+import { getAddress } from 'ethers/lib/utils';
 require('dotenv').config();
 
 let config: {
@@ -91,22 +92,22 @@ const getProtocolKit = async () => {
 
   const protocolKit = await Safe.init({
     provider: RPC_URL_GS,
-    safeAddress: SAFE_ADDRESS,
+    safeAddress: getAddress(SAFE_ADDRESS),
     signer: SAFE_PK,
   });
 
   config = {
     apiKit,
     protocolKit,
-    signerAddress: SIGNER_ADDRESS,
-    safeAddress: SAFE_ADDRESS,
+    signerAddress: getAddress(SIGNER_ADDRESS),
+    safeAddress: getAddress(SAFE_ADDRESS),
     boostInterface: new ethers.utils.Interface(boostAbi.abi),
     safeChainId: +SAFE_CHAIN_ID,
     layer2ChainId: +LAYER2_CHAIN_ID,
     layer2Eid: +LAYER2_EID,
     bscEid: +BSC_EID,
     bscChainId: +BSC_CHAIN_ID,
-    boostAddressMainnet: BOOST_ADDRESS_MAINNET,
+    boostAddressMainnet: getAddress(BOOST_ADDRESS_MAINNET),
     rpc: RPC_URL_GS,
   };
   return config;
