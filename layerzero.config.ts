@@ -25,6 +25,7 @@ const mainnetContract: OmniPointHardhat = {
 const bscContract: OmniPointHardhat = {
   eid: USE_MAINNET ? EndpointId.BSC_V2_MAINNET : EndpointId.BSC_V2_TESTNET,
   contractName: 'Boost',
+  address: '0xbE7E12B2E128bC955A0130fFB168F031d7dD8d58',
 };
 
 const dvns = {
@@ -89,6 +90,13 @@ const config: OAppOmniGraphHardhat = {
     },
     {
       contract: abstractContract,
+      config: {
+        owner: DEPLOYER_ADDRESS,
+        delegate: DEPLOYER_ADDRESS,
+      },
+    },
+    {
+      contract: bscContract,
       config: {
         owner: DEPLOYER_ADDRESS,
         delegate: DEPLOYER_ADDRESS,

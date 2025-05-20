@@ -18,6 +18,8 @@ let config: {
   safeChainId: number;
   layer2ChainId: number;
   layer2Eid: number;
+  bscEid: number;
+  bscChainId: number;
   boostInterface: ethers.utils.Interface;
   boostAddressMainnet: string;
   boostAddressLayer2: string;
@@ -78,6 +80,16 @@ const getProtocolKit = async () => {
     throw new Error('LAYER2_EID is not defined');
   }
 
+  const BSC_EID = process.env.BSC_EID;
+  if (!BSC_EID) {
+    throw new Error('BSC_EID is not defined');
+  }
+
+  const BSC_CHAIN_ID = process.env.BSC_CHAIN_ID;
+  if (!BSC_CHAIN_ID) {
+    throw new Error('BSC_CHAIN_ID is not defined');
+  }
+
   const apiKit = new SafeApiKit({
     chainId: BigInt(SAFE_CHAIN_ID),
   });
@@ -97,6 +109,8 @@ const getProtocolKit = async () => {
     safeChainId: +SAFE_CHAIN_ID,
     layer2ChainId: +LAYER2_CHAIN_ID,
     layer2Eid: +LAYER2_EID,
+    bscEid: +BSC_EID,
+    bscChainId: +BSC_CHAIN_ID,
     boostAddressMainnet: BOOST_ADDRESS_MAINNET,
     boostAddressLayer2: BOOST_ADDRESS_LAYER2,
     rpc: RPC_URL_GS,
@@ -179,6 +193,83 @@ export const proposeBridgeBoostAbstract = async (to: string, wad: string) => {
 
   const sendParam = {
     dstEid: layer2Eid,
+    to: addressToBytes32(to),
+    amountLD: wad,
+    minAmountLD: wad,
+    extraOptions: options,
+    composeMsg: '0x',
+    oftCmd: '0x',
+  };
+  const provider = new ethers.providers.JsonRpcProvider(rpc);
+  const contract = new ethers.Contract(
+    boostAddressMainnet,
+    boostInterface,
+    provider,
+  );
+  const messageFee = await contract.quoteSend(sendParam, false);
+  const nativeFee = messageFee.nativeFee;
+
+  const data = boostInterface.encodeFunctionData('send', [
+    sendParam,
+    {
+      nativeFee: nativeFee,
+      lzTokenFee: 0,
+    },
+    safeAddress,
+  ]);
+
+  const transactionData = {
+    to: boostAddressMainnet,
+    value: nativeFee.toString(),
+    data: data,
+    operation: OperationType.Call,
+  };
+
+  try {
+    const safeTransaction = await protocolKit.createTransaction({
+      transactions: [transactionData],
+    });
+
+    const safeTxHash = await protocolKit.getTransactionHash(safeTransaction);
+    console.log('Transaction hash:', safeTxHash);
+
+    const signature = await protocolKit.signHash(safeTxHash);
+
+    // Propose transaction to the service
+    await apiKit.proposeTransaction({
+      safeAddress: safeAddress,
+      safeTransactionData: safeTransaction.data,
+      safeTxHash,
+      senderAddress: signerAddress,
+      senderSignature: signature.data,
+    });
+    return safeTxHash;
+  } catch (error) {
+    console.error('Error creating transaction:', error);
+    throw new Error('Failed to create transaction');
+  }
+};
+
+export const proposeBridgeBoostBsc = async (to: string, wad: string) => {
+  if (!ethers.utils.isAddress(to.toLowerCase())) {
+    throw new Error('Invalid address');
+  }
+
+  const {
+    protocolKit,
+    apiKit,
+    boostAddressMainnet,
+    boostInterface,
+    bscEid,
+    rpc,
+    safeAddress,
+    signerAddress,
+  } = await getProtocolKit();
+
+  const options = Options.newOptions().toBytes();
+
+  const sendParam = {
+    dstEid: bscEid,
     to: addressToBytes32(to),
     amountLD: wad,
     minAmountLD: wad,

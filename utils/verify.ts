@@ -1,16 +1,16 @@
-// const hre = require('hardhat');
-import hre from 'hardhat';
+const hre = require('hardhat');
+// import hre from 'hardhat';
 import { exec as execBase } from 'child_process';
 import { promisify } from 'util';
 
 const exec = promisify(execBase);
 
 const verify = async () => {
-  const boostMainnet = await hre.deployments.get('BoostMainnet');
+  const boostMainnet = await hre.deployments.get('Boost');
   await hre.run('verify:verify', {
     address: boostMainnet.address,
     constructorArguments: [...(boostMainnet.args || [])],
-    contract: 'contracts/BoostMainnet.sol:BoostMainnet',
+    contract: 'contracts/Boost.sol:Boost',
   });
 
   console.log(
