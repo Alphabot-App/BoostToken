@@ -23,7 +23,9 @@
     "test": "$npm_execpath run test:forge && $npm_execpath run test:hardhat",
     "test:forge": "forge test",
     "test:hardhat": "hardhat test",
-    "test:safe": "jest"
+    "test:safe": "jest",
+
+    "dev-script": "ts-node scripts/script"
   },
   "resolutions": {
     "ethers": "^5.7.2",
