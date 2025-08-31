@@ -57,7 +57,7 @@ export const bridgeBoostBsc = async (to: string, wad: string) => {
     data: data,
     nonce: await provider.getTransactionCount(hotWalletAddress, 'latest'),
     gasLimit: BigNumber.from(1_000_000),
-    gasPrice: (await provider.getGasPrice()).mul(1.3),
+    gasPrice: await provider.getGasPrice(),
     chainId: 1,
   };
 
