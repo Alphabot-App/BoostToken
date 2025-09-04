@@ -1,7 +1,11 @@
-import { proposeBridgeBoostBsc } from "../utils/safe/propose";
+import { bridgeBoostToAbstract } from '../utils/safe/transfer';
 
 const go = async () => {
-  await proposeBridgeBoostBsc(process.env.SIGNER_ADDRESS!, process.env.BRIDGE_BOOST_AMOUNT!)
-}
+  const tx = await bridgeBoostToAbstract(
+    process.env.BRIDGE_RECEIVER_ADDRESS!,
+    process.env.BRIDGE_BOOST_AMOUNT!,
+  );
+  console.log(`https://layerzeroscan.com/tx/${tx}`);
+};
 
 go();
