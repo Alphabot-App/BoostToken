@@ -2,7 +2,7 @@ import boostAbi from '../../artifacts/contracts/BoostMainnet.sol/BoostMainnet.js
 import { BigNumber, ethers } from 'ethers';
 import { addressToBytes32, Options } from '@layerzerolabs/lz-v2-utilities';
 require('dotenv').config();
-export const bridgeBoostBsc = async (to: string, wad: string) => {
+export const bridgeBoostToBsc = async (to: string, wad: string) => {
   const rpc = process.env.RPC_FOR_GNOSIS_SAFE;
   if (!rpc) throw new Error('RPC_FOR_GNOSIS_SAFE is not defined');
 
@@ -71,7 +71,7 @@ export const bridgeBoostBsc = async (to: string, wad: string) => {
   }
 };
 
-export const bridgeBoostAbstract = async (to: string, wad: string) => {
+export const bridgeBoostToAbstract = async (to: string, wad: string) => {
   const rpc = process.env.RPC_FOR_GNOSIS_SAFE;
   if (!rpc) throw new Error('RPC_FOR_GNOSIS_SAFE is not defined');
 

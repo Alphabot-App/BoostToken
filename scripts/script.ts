@@ -1,7 +1,7 @@
-import { bridgeBoostAbstract } from '../utils/safe/transfer';
+import { bridgeBoostToAbstract } from '../utils/safe/transfer';
 
 const go = async () => {
-  const tx = await bridgeBoostAbstract(
+  const tx = await bridgeBoostToAbstract(
     process.env.BRIDGE_RECEIVER_ADDRESS!,
     process.env.BRIDGE_BOOST_AMOUNT!,
   );
