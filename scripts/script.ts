@@ -1,7 +1,7 @@
-import { proposeBridgeBoostBsc } from "../utils/safe/propose";
+import { bridgeBoostAbstract } from "../utils/safe/transfer";
 
 const go = async () => {
-  await proposeBridgeBoostBsc(process.env.SIGNER_ADDRESS!, process.env.BRIDGE_BOOST_AMOUNT!)
+  console.log(await bridgeBoostAbstract(process.env.BRIDGE_RECEIVER_ADDRESS!, process.env.BRIDGE_BOOST_AMOUNT!))
 }
 
 go();
