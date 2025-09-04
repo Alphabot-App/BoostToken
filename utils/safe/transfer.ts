@@ -186,7 +186,7 @@ export const bridgeBoostBscToMainnet = async (to: string, wad: string) => {
       nonce: await provider.getTransactionCount(hotWalletAddress, 'latest'),
       gasLimit: BigNumber.from(1_000_000),
       gasPrice: await provider.getGasPrice(),
-      chainId: 1,
+      chainId: 56,
     };
 
     // Propose transaction to the service
